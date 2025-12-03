@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133062875898086"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133062875898086"
+          crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二階移動停利計算器 - 進階鎖利工具</title>
+    <title>股市醫生李的二階動態停利計算器 - 進階鎖利工具</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,11 +21,13 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+        /* 標題樣式調整 */
         h2 {
             color: #dc3545; /* 突出二階的顏色 */
             border-bottom: 2px solid #dc3545;
             padding-bottom: 10px;
             margin-bottom: 20px;
+            text-align: center;
         }
         h3 {
             color: #218838;
@@ -70,7 +72,7 @@
             background-color: #f8d7da; /* 輕微警示色 */
             border-radius: 8px;
             font-size: 1.1em;
-            text-align: center;
+            text-align: left; /* 確保內容靠左對齊 */
         }
         .result strong {
             color: #491217;
@@ -104,15 +106,53 @@
             border: 1px solid #bee5eb;
             margin-top: 20px;
         }
+        /* 新增教育區塊樣式 */
+        .education-link {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .education-content {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 style="display: flex; align-items: center; color: #dc3545; border-bottom: 2px solid #dc3545; padding-bottom: 10px; margin-bottom: 20px;">    
-    二階移動停利計算器 (進階鎖利)
-	</h2>
+
+    <h2 style="color: #dc3545; border-bottom: 2px solid #dc3545; padding-bottom: 10px; margin-bottom: 20px; text-align: center;">
+        🏆 二階動態停利計算器
+    </h2>
     <p>本工具適用於獲利豐厚的部位，可設定兩個不同的鎖定比例，應對不同的獲利階段，實現最大的利潤保護。</p>
+
+    <div class="education-link">
+        <a href="javascript:void(0)" onclick="togglePolicy('why_stop')" style="font-weight:bold;">👉 為何要使用移動停利？點此瞭解好處</a>
+    </div>
+
+    <div id="why_stop_content" class="policy-content education-content">
+        <h5>💡 移動停利的黃金法則 (淺白說明)</h5>
+        <p>傳統的「停損」只管理虧損，而「移動停利」則是管理**利潤**的工具。它能讓您用**極小的回檔風險**，換取**無上限的成長潛力**！</p>
+        <ol style="padding-left: 20px;">
+            <li>**【捕捉飆股】不錯過數倍漲幅：** <p style="margin: 5px 0 5px 10px;">
+                    人的一生中，真正能飆漲數倍的股票可能屈指可數。移動停利機制能讓您在股價起飛時保持在場，用預設的「回撤幅度」當作保護費，確保您**不會因為太早出場而錯過整段主升浪**。
+                </p>
+            </li>
+            <li>**【鎖定戰果】用有限損失，守護利潤：** <p style="margin: 5px 0 5px 10px;">
+                    股價上漲時，停利點同步上移。這保證了您的出場點**永遠高於成本價**（一旦獲利），確保您將大部分賺到的錢鎖入口袋，不再經歷獲利歸零的痛苦。
+                </p>
+            </li>
+            <li>**【戰勝情緒】以紀律執行策略：** <p style="margin: 5px 0 5px 10px;">
+                    市場波動容易讓人貪婪或恐懼。計算器代替您的情緒，客觀執行您設定好的出場規則，幫助您成為一個有紀律、不受市場噪音干擾的投資者。
+                </p>
+            </li>
+        </ol>
+    </div>
 
     <div class="section" id="settings">
         <h3>1. 策略參數設定 (%)</h3>
@@ -120,7 +160,7 @@
         <label for="T_start">移動停利啟動門檻 (階段一啟動, 預設10%)</label>
         <input type="number" id="T_start" value="10" min="0" step="0.1">
         
-        <label for="L1">階段一鎖定比例 (低獲利鎖定,以防止被洗出, 預設60%)</label>
+        <label for="L1">階段一鎖定比例 (低獲利防洗出, 預設60%)</label>
         <input type="number" id="L1" value="60" min="0" max="100" step="1">
 
         <hr style="margin: 20px 0;">
@@ -153,18 +193,13 @@
     </div>
 
     <div class="tip-box">
-        <h4>💡 策略提示</h4>
-        <p>階段二 (高鎖定比例) 應當在總利潤金額已足夠大，能覆蓋日常波動時才啟用。</p>
+        <h4>💡 策略提示：階段二的必要性</h4>
+        <p>階段二提供更保守的鎖定比例，確保您在獲利豐厚時，能有效鎖定大部分戰果。這個設計是為了讓您的資金配置更加安全。</p>
         <p style="text-align: center; margin-top: 15px;">
             <a href="trailing_stop_calculator.html" style="background-color: #007bff; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;">返回單階鎖利計算器</a>
         </p>
     </div>
-    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
-    <p style="font-size: 0.9em; color: #5a5a5a; margin-bottom: 10px;">
-        由 股市醫生李 設計提供
-    </p>
-    <img src="my_sketch_logo.png" alt="股市醫生李的標誌" style="height: 35px; border-radius: 5px; object-fit: cover; opacity: 0.8;">
-	</div>
+    
     <div class="footer-links">
         <a href="javascript:void(0)" onclick="togglePolicy('terms')">服務條款 (Terms)</a> | 
         <a href="javascript:void(0)" onclick="togglePolicy('privacy')">隱私政策 (Privacy)</a>
@@ -173,6 +208,13 @@
             站長信箱：
             <a href="mailto:jordenno@gmail.com" style="color: #007bff; text-decoration: none;">jordenno@gmail.com</a>
         </span>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
+        <p style="font-size: 0.9em; color: #5a5a5a; margin-bottom: 10px;">
+            由 股市醫生李 設計提供
+        </p>
+        <img src="my_sketch_logo.png" alt="股市醫生李的標誌" style="height: 35px; border-radius: 5px; object-fit: cover; opacity: 0.8;">
     </div>
 
     <div id="terms_content" class="policy-content">
@@ -186,12 +228,12 @@
 </div>
 
 <script>
+// -------------------- 互動切換函數 --------------------
 function togglePolicy(id) {
     const content = document.getElementById(id + '_content');
     if (content.style.display === 'block') {
         content.style.display = 'none';
     } else {
-        // 關閉其他展開的區域，避免頁面過長
         document.querySelectorAll('.policy-content').forEach(el => {
             if (el.id !== id + '_content') {
                 el.style.display = 'none';
@@ -201,12 +243,13 @@ function togglePolicy(id) {
     }
 }
 
+// -------------------- 計算邏輯函數 --------------------
 function calculateStopPrice() {
     // 獲取輸入數據 (C:成本價, P_high:最高價)
     const C = parseFloat(document.getElementById('C').value);
     const P_high = parseFloat(document.getElementById('P_high').value);
 
-    // 獲取系統參數 (皆為百分比輸入，需轉換為小數)
+    // 獲取系統參數
     const T_start = parseFloat(document.getElementById('T_start').value) / 100;
     const T_switch = parseFloat(document.getElementById('T_switch').value) / 100;
     const L1 = parseFloat(document.getElementById('L1').value) / 100; // 階段一鎖定比例
@@ -216,29 +259,23 @@ function calculateStopPrice() {
     const outputDiv = document.getElementById('output');
 
     // 基礎數據檢查
-    if (isNaN(C) || isNaN(P_high) || C <= 0 || P_high <= 0 || T_start > T_switch) {
-        outputDiv.innerHTML = "<strong>錯誤：</strong>請檢查輸入數據和參數設置（啟動門檻不能大於切換門檻）。";
+    if (isNaN(C) || isNaN(P_high) || C <= 0 || P_high <= 0 || T_start >= T_switch) {
+        outputDiv.innerHTML = "<strong>錯誤：</strong>請檢查輸入數據和參數設置（啟動門檻必須小於切換門檻）。";
         return;
     }
     
     // --- 核心計算 ---
     
-    // 1. 計算硬性停損價 (P_hard_stop)
-    const P_hard_stop = C * (1 - S_stop);
+    const P_hard_stop = C * (1 - S_stop); // 硬性停損價
+    const G_total = P_high - C; // 總獲利金額
+    const profit_pct = G_total / C; // 總獲利百分比
 
-    // 2. 計算總獲利 (金額與百分比)
-    const G_total = P_high - C;
-    const profit_pct = G_total / C;
-
-    let P_stop = P_hard_stop; // 預設停利價為硬性停損價
+    let P_stop = P_hard_stop; 
     let L_current = 0; // 當前使用的鎖定比例
     let strategy_stage = "";
 
-    // 3. 邏輯判斷與移動停利價格 (P_stop) 計算
-
-    // I. 未達啟動門檻 ( profit_pct < T_start)
+    // 1. 未達啟動門檻 ( profit_pct < T_start)
     if (profit_pct < T_start) {
-        
         if (P_high <= C) {
             strategy_stage = `<span style="color:red;">未獲利，硬性停損保護中</span>`;
         } else {
@@ -255,7 +292,7 @@ function calculateStopPrice() {
         return;
     }
 
-    // II. 階段一移動停利 (T_start <= profit < T_switch)
+    // 2. 階段一移動停利 (T_start <= profit < T_switch)
     else if (profit_pct < T_switch) {
         L_current = L1;
         const G_locked = G_total * L_current;
@@ -263,7 +300,7 @@ function calculateStopPrice() {
         strategy_stage = `<span style="color:#007bff;">階段一 (鎖定 ${L_current * 100}%)</span>`;
     }
 
-    // III. 階段二移動停利 (profit >= T_switch)
+    // 3. 階段二移動停利 (profit >= T_switch)
     else {
         L_current = L2;
         const G_locked = G_total * L_current;
@@ -272,18 +309,21 @@ function calculateStopPrice() {
     }
 
     // 顯示最終結果
-    
     const final_stop_price = Math.max(P_stop, P_hard_stop); 
-    const lock_pct = (final_stop_price - C) / G_total * 100;
-    
+    const guaranteed_profit_pct = (final_stop_price - C) / C * 100; // 鎖定保底獲利百分比
+
     outputDiv.innerHTML = `
-        <p>最高獲利百分比：<strong>${(profit_pct * 100).toFixed(2)}%</strong></p>
+        <div style="text-align: center;"> 
+            <p style="font-size: 1.2em; color: #dc3545; margin-bottom: 5px;">目前的**移動停利**價格：</p>
+            <p style="font-size: 2em; margin-top: -10px;"><strong>$${final_stop_price.toFixed(2)}</strong></p>
+        </div>
+        <hr>
+        
+        <p>持有期間最高獲利百分比：<strong>${(profit_pct * 100).toFixed(2)}%</strong></p>
         <p>適用策略：${strategy_stage}</p>
-        <p>鎖定利潤金額：$${(final_stop_price - C).toFixed(2)} (總利潤的 ${lock_pct.toFixed(2)}%)</p>
-        <hr>
-        <p style="font-size: 1.2em; color: #dc3545;">目前的**移動停利**價格：</p>
-        <p style="font-size: 2em; margin-top: -10px;"><strong>$${final_stop_price.toFixed(2)}</strong></p>
-        <hr>
+        <p>鎖定利潤金額：$${(final_stop_price - C).toFixed(2)}</p>
+        <p style="font-size: 1.1em;">鎖定保底獲利：<strong>${guaranteed_profit_pct.toFixed(2)}%</strong></p>
+        <hr>        
         <p style="font-size: 1.1em; color: #5a5a5a;">**停損**價格 (${S_stop * 100}%): <strong>$${P_hard_stop.toFixed(2)}</strong></p>
     `;
 }
@@ -291,8 +331,3 @@ function calculateStopPrice() {
 
 </body>
 </html>
-
-
-
-
-
