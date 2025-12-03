@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133062875898086"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133062875898086"
+          crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>單階動態停利計算器 - 投資紀律工具</title>
+    <title>股市醫生李的動態停利計算器 - 投資紀律工具</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,11 +21,14 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+        /* 標題樣式調整 */
         h2 {
             color: #007bff;
             border-bottom: 2px solid #007bff;
             padding-bottom: 10px;
             margin-bottom: 20px;
+            display: flex; /* 讓圖片和文字對齊 */
+            align-items: center;
         }
         h3 {
             color: #218838;
@@ -104,16 +107,45 @@
             border: 1px solid #ffeeba;
             margin-top: 20px;
         }
+        /* 新增教育區塊樣式 */
+        .education-link {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .education-content {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #bee5eb;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">    
-	<h2 style="display: flex; align-items: center;">
-		<img src="my_sketch_logo.png" alt="我的素描標誌" style="height: 40px; margin-right: 15px; border-radius: 5px;">
-		🎯 單階動態停利計算器
-	</h2>
-    <p>本工具基於您的成本價及最高獲利價，計算出符合單一鎖定比例的移動停利點，幫助您嚴守投資紀律。</p>
+<div class="container">
+    <h2 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px;">
+        <img src="my_sketch_logo.png" alt="股市醫生李的標誌" style="height: 40px; margin-right: 15px; border-radius: 5px; object-fit: cover;">
+        🎯 股市醫生李的動態停利計算器
+    </h2>
+    <p>本工具基於您的成本價及最高獲利價，計算出符合鎖定比例的移動停利點，幫助您嚴守投資紀律。</p>
+
+    <div class="education-link">
+        <a href="javascript:void(0)" onclick="togglePolicy('why_stop')" style="font-weight:bold;">👉 為何要使用移動停利？點此瞭解好處</a>
+    </div>
+
+    <div id="why_stop_content" class="policy-content education-content">
+        <h5>💡 移動停利的三大好處 (淺白說明)</h5>
+        <p>傳統的「停損」只管虧損，但「移動停利」是管理**利潤**的工具，讓您不再坐雲霄飛車！</p>
+        <ol style="padding-left: 20px;">
+            <li>**鎖住戰果，不讓獲利歸零：** 當股價上漲時，停利點會隨之上移。即使市場突發大跌，您的停利點已鎖定在較高位，確保您不會將賺到的錢全部賠回去。</li>
+            <li>**克服人性，執行紀律：** 很多人看到股價創新高時不敢賣，等到下跌時又捨不得賣。計算器能代替您的情緒，客觀地執行您預設好的出場規則。</li>
+            <li>**享受上漲，無上限：** 只要股價持續上漲，您的部位就能繼續享受漲幅。移動停利讓您在不預設天花板的情況下，給自己設置一條堅實的地板。</li>
+        </ol>
+    </div>
 
     <div class="section" id="settings">
         <h3>1. 策略參數設定 (%)</h3>
@@ -176,6 +208,8 @@
 <script>
 function togglePolicy(id) {
     const content = document.getElementById(id + '_content');
+    // 檢查是否為 'why_stop' 內容，使用專門的 togglePolicy 函數 (如果需要)
+    // 這裡使用單一函數處理所有 toggle
     if (content.style.display === 'block') {
         content.style.display = 'none';
     } else {
