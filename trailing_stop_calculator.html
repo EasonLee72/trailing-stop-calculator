@@ -73,7 +73,13 @@
             background-color: #e9ecef;
             border-radius: 8px;
             font-size: 1.1em;
-            text-align: center;
+            /* 將 text-align 設為 left，確保多行文字靠左對齊 */
+            text-align: left; 
+        }
+
+        /* 此外，確保最關鍵的價格還是居中顯示 (選用) */
+        .result h4 {
+            text-align: center; 
         }
         .result strong {
             color: #dc3545;
@@ -300,26 +306,33 @@ function calculateStopPrice() {
     }
 
     // 顯示最終結果
+    // 最終停利價應為計算出的移動停利價 (P_stop) 和硬性停損價 (P_hard_stop) 中的較高者
+    const final_stop_price = Math.max(P_stop, P_hard_stop); 
+    const lock_pct = (final_stop_price - C) / G_total * 100; // 總利潤的百分比 (不再使用)
     
-    // 最終停利價應為計算出的移動停利價 (P_stop) 和硬性停損價 (P_hard_stop) 中的較高者
-    const final_stop_price = Math.max(P_stop, P_hard_stop); 
-    const lock_pct = (final_stop_price - C) / G_total * 100;
-    
+    // 計算鎖定金額相對於成本價的百分比 (保底獲利百分比)
+    const guaranteed_profit_pct = (final_stop_price - C) / C * 100;
+
     outputDiv.innerHTML = `
-        <p>最高獲利百分比：<strong>${(profit_pct * 100).toFixed(2)}%</strong></p>
-        <p>適用策略：${strategy_stage}</p>
-        <p>鎖定利潤金額：$${(final_stop_price - C).toFixed(2)} (總利潤的 ${lock_pct.toFixed(2)}%)</p>
-        <hr>
-        <p style="font-size: 1.2em; color: #dc3545;">目前的**移動停利**價格：</p>
+    <div style="text-align: center;"> 
+        <p style="font-size: 1.2em; color: #dc3545; margin-bottom: 5px;">目前的**移動停利**價格：</p>
         <p style="font-size: 2em; margin-top: -10px;"><strong>$${final_stop_price.toFixed(2)}</strong></p>
-        <hr>
-        <p style="font-size: 1.1em; color: #5a5a5a;">**停損**價格 (${S_stop * 100}%): <strong>$${P_hard_stop.toFixed(2)}</strong></p>
-    `;
+    </div>
+    <hr>
+    
+        <p>持有期間最高獲利百分比：<strong>${(profit_pct * 100).toFixed(2)}%</strong></p>
+    <p>適用策略：${strategy_stage}</p>
+    <p>鎖定利潤金額：$${(final_stop_price - C).toFixed(2)}</p>
+    <p style="font-size: 1.1em;">鎖定保底獲利：<strong>${guaranteed_profit_pct.toFixed(2)}%</strong></p>
+    <hr>        
+    <p style="font-size: 1.1em; color: #5a5a5a;">**停損**價格 (${S_stop * 100}%): <strong>$${P_hard_stop.toFixed(2)}</strong></p>
+`;
 }
 </script>
 
 </body>
 </html>
+
 
 
 
