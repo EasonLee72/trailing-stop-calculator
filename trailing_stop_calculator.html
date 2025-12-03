@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>單階動態停利計算器 - 投資紀律工具</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #218838;
+        }
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .result strong {
+            color: #dc3545;
+            font-size: 1.5em;
+        }
+        .footer-links {
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .footer-links a {
+            margin: 0 15px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .policy-content {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            background-color: #f9f9f9;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        .tip-box {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ffeeba;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">    
+	<h2 style="display: flex; align-items: center;">
+		<img src="my_sketch_logo.png" alt="我的素描標誌" style="height: 40px; margin-right: 15px; border-radius: 5px;">
+		🎯 單階動態停利計算器
+	</h2>
+    <p>本工具基於您的成本價及最高獲利價，計算出符合單一鎖定比例的移動停利點，幫助您嚴守投資紀律。</p>
+
+    <div class="section" id="settings">
+        <h3>1. 策略參數設定 (%)</h3>
+        <label for="T_start">移動停利啟動門檻 (e.g., 10%)</label>
+        <input type="number" id="T_start" value="10" min="0" step="0.1">
+
+        <label for="L1">獲利鎖定比例 (e.g., 65%)</label>
+        <input type="number" id="L1" value="65" min="0" max="100" step="1">
+
+        <label for="S_stop">買進停損比例 (e.g., 5%)</label>
+        <input type="number" id="S_stop" value="5" min="0" step="0.1">
+    </div>
+
+    <div class="section">
+        <h3>2. 交易數據輸入 (USD)</h3>
+        <label for="C">成本價 ($C$)</label>
+        <input type="number" id="C" placeholder="輸入成本價" value="288.5" min="0" step="0.01">
+
+        <label for="P_high">買進後最高價 ($P_{high}$)</label>
+        <input type="number" id="P_high" placeholder="輸入最高價" value="323.43" min="0" step="0.01">
+    </div>
+
+    <button onclick="calculateStopPrice()">計算目前的停利與停損價格</button>
+
+    <div class="result" id="output">
+        請輸入數據並點擊計算。
+    </div>
+
+    <div class="tip-box">
+        <h4>🤔 剛啟動移動停利時，如何避免被洗出場？</h4>
+        <p>當獲利剛超過門檻時，您允許的回撤幅度可能小於股票的日常波動 (ATR)。</p>
+        <a href="javascript:void(0)" onclick="togglePolicy('washout')" style="font-weight:bold;">點此查看解決方案，並了解如何使用進階的二階鎖利策略</a>
+        
+        <div id="washout_content" class="policy-content">
+            <h5>【低利潤防洗出與二階鎖利預告】</h5>
+            <p><strong>防洗出策略 (ATR 應用):</strong></p>
+            <p>當獲利剛超過 ${T_{start}}$% 門檻時，若鎖定比例過高 (例如 $70\%$)，導致的回撤空間 (${100-L}$% 的利潤) 可能小於股票的平均波動。建議在剛啟動時，將鎖定比例調低（如 $65\%$），讓出的 $35\%$ 利潤空間可覆蓋股價的日常回檔。</p>
+            <p><strong>進階二階鎖利功能已開放！</strong> 適用於高額獲利情況，能更有效地鎖定戰果。</p>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="trailing_stop_calculator2.html" style="background-color: #f7a83d; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;">前往使用二階鎖利計算器</a>
+            </p>
+        </div>
+    </div>
+    
+    <div class="footer-links">
+        <a href="javascript:void(0)" onclick="togglePolicy('terms')">服務條款 (Terms)</a> | 
+        <a href="javascript:void(0)" onclick="togglePolicy('privacy')">隱私政策 (Privacy)</a>
+    </div>
+
+    <div id="terms_content" class="policy-content">
+        <h5>服務條款 (範本)</h5>
+        <p>本計算器提供的所有數據僅供參考和教育目的。本工具不構成任何形式的投資建議、招攬或誘導。您應當根據自身的財務狀況、風險承受能力和獨立判斷進行投資決策。使用本工具產生的一切後果，由用戶自行承擔。我們不對因使用本工具而導致的任何損失或損害負責。</p>
+    </div>
+    <div id="privacy_content" class="policy-content">
+        <h5>隱私政策 (範本)</h5>
+        <p>本網站不會收集、儲存或分享任何用戶的個人身份資訊 (Personally Identifiable Information, PII)。所有計算均在您的瀏覽器本地完成，輸入的成本價和最高價等數據不會被傳輸到伺服器或被我們記錄。若本網站未來使用 Google AdSense，Google 可能會收集非個人身份資訊以進行廣告投放，詳情請參考 Google 的隱私政策。</p>
+    </div>
+</div>
+
+<script>
+function togglePolicy(id) {
+    const content = document.getElementById(id + '_content');
+    if (content.style.display === 'block') {
+        content.style.display = 'none';
+    } else {
+        // 關閉其他展開的區域，避免頁面過長
+        document.querySelectorAll('.policy-content').forEach(el => {
+            if (el.id !== id + '_content') {
+                el.style.display = 'none';
+            }
+        });
+        content.style.display = 'block';
+    }
+}
+
+function calculateStopPrice() {
+    // 獲取輸入數據 (C:成本價, P_high:最高價)
+    const C = parseFloat(document.getElementById('C').value);
+    const P_high = parseFloat(document.getElementById('P_high').value);
+
+    // 獲取系統參數 (皆為百分比輸入，需轉換為小數)
+    const T_start = parseFloat(document.getElementById('T_start').value) / 100;
+    const L1 = parseFloat(document.getElementById('L1').value) / 100; // 單一鎖定比例
+    const S_stop = parseFloat(document.getElementById('S_stop').value) / 100;
+
+    const outputDiv = document.getElementById('output');
+
+    // 基礎數據檢查
+    if (isNaN(C) || isNaN(P_high) || C <= 0 || P_high <= 0) {
+        outputDiv.innerHTML = "<strong>錯誤：</strong>請輸入有效的成本價和最高價。";
+        return;
+    }
+    
+    // --- 核心計算 ---
+    
+    // 1. 計算硬性停損價 (P_hard_stop)
+    const P_hard_stop = C * (1 - S_stop);
+
+    // 2. 計算總獲利 (金額與百分比)
+    const G_total = P_high - C;
+    const profit_pct = G_total / C;
+
+    let P_stop = P_hard_stop; // 預設停利價為硬性停損價
+    let strategy_stage = "";
+    
+    // 3. 邏輯判斷與移動停利價格 (P_stop) 計算
+
+    // I. 未達啟動門檻 ( profit_pct < T_start)
+    if (profit_pct < T_start) {
+        // 如果最高價甚至低於成本價
+        if (P_high <= C) {
+            strategy_stage = `<span style="color:red;">未獲利，硬性停損保護中</span>`;
+        } else {
+             strategy_stage = `<span style="color:orange;">已獲利但未啟動移動停利</span>`;
+        }
+        
+        outputDiv.innerHTML = `
+            <p>最高獲利百分比：${(profit_pct * 100).toFixed(2)}%</p>
+            <p><strong>${strategy_stage}</strong></p>
+            <p>需達 ${T_start * 100}% (價格 $${(C * (1 + T_start)).toFixed(2)}) 才會啟動移動停利。</p>
+            <hr>
+            <p style="font-size: 1.1em;">目前的硬性停損價格：<strong>$${P_hard_stop.toFixed(2)}</strong></p>
+        `;
+        return;
+    }
+
+    // II. 單階移動停利 (profit_pct >= T_start)
+    else {
+        const L = L1;
+        const G_locked = G_total * L;
+        P_stop = C + G_locked;
+        strategy_stage = `<span style="color:#28a745;">單階移動停利 (鎖定 ${L * 100}%)</span>`;
+    }
+
+    // 顯示最終結果
+    
+    // 最終停利價應為計算出的移動停利價 (P_stop) 和硬性停損價 (P_hard_stop) 中的較高者
+    const final_stop_price = Math.max(P_stop, P_hard_stop); 
+    const lock_pct = (final_stop_price - C) / G_total * 100;
+    
+    outputDiv.innerHTML = `
+        <p>最高獲利百分比：<strong>${(profit_pct * 100).toFixed(2)}%</strong></p>
+        <p>適用策略：${strategy_stage}</p>
+        <p>鎖定利潤金額：$${(final_stop_price - C).toFixed(2)} (總利潤的 ${lock_pct.toFixed(2)}%)</p>
+        <hr>
+        <p style="font-size: 1.2em; color: #dc3545;">目前的**移動停利**價格：</p>
+        <p style="font-size: 2em; margin-top: -10px;"><strong>$${final_stop_price.toFixed(2)}</strong></p>
+        <hr>
+        <p style="font-size: 1.1em; color: #5a5a5a;">**硬性停損**價格 (${S_stop * 100}%): <strong>$${P_hard_stop.toFixed(2)}</strong></p>
+    `;
+}
+</script>
+
+</body>
+</html>
