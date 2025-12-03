@@ -157,13 +157,13 @@
 
     <div class="section" id="settings">
         <h3>1. 策略參數設定 (%)</h3>
-        <label for="T_start">移動停利啟動門檻 (e.g., 10%)</label>
+        <label for="T_start">移動停利啟動門檻 (預設10%)</label>
         <input type="number" id="T_start" value="10" min="0" step="0.1">
 
-        <label for="L1">獲利鎖定比例 (e.g., 70%)</label>
+        <label for="L1">獲利鎖定比例 (預設70%)</label>
         <input type="number" id="L1" value="70" min="0" max="100" step="1">
 
-        <label for="S_stop">買進停損比例 (e.g., 5%)</label>
+        <label for="S_stop">停損比例 (預設5%)</label>
         <input type="number" id="S_stop" value="5" min="0" step="0.1">
     </div>
 
@@ -172,7 +172,7 @@
         <label for="C">成本價</label>
         <input type="number" id="C" placeholder="輸入成本價" value="100" min="0" step="0.01">
 
-        <label for="P_high">買進後最高價</label>
+        <label for="P_high">買進後最高價(建議使用每日收盤價)</label>
         <input type="number" id="P_high" placeholder="輸入最高價" value="114" min="0" step="0.01">
     </div>
 
@@ -190,7 +190,7 @@
         <div id="washout_content" class="policy-content">
             <h5>【低利潤防洗出與二階鎖利預告】</h5>
             <p><strong>防洗出策略 (ATR 應用):</strong></p>
-            <p>當獲利剛超過啟動門檻時，若鎖定利潤的比例（例如 70%）設定過高，則留給股價波動的空間會不足。這可能導致正常的市場回檔就觸發停利。因此，建議在剛啟動時，將鎖定比例適度調低（例如 65%），讓出的利潤空間可有效覆蓋股價的日常波動。</p>
+            <p>當獲利剛超過啟動門檻時，若鎖定利潤的比例（例如 70%）設定過高，則留給股價波動的空間會不足。這可能導致正常的市場回檔就觸發停利。因此，建議在剛啟動移動停利時，將鎖定比例適度調低（例如 60%），讓出的利潤空間可有效覆蓋股價的日常波動。</p>
             <p><strong>進階二階鎖利功能已開放！</strong> 適用於高額獲利情況，能更有效地鎖定戰果。</p>
             <p style="text-align: center; margin-top: 15px;">
                 <a href="trailing_stop_calculator2.html" style="background-color: #f7a83d; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;">前往使用二階鎖利計算器</a>
@@ -314,7 +314,7 @@ function calculateStopPrice() {
         <p style="font-size: 1.2em; color: #dc3545;">目前的**移動停利**價格：</p>
         <p style="font-size: 2em; margin-top: -10px;"><strong>$${final_stop_price.toFixed(2)}</strong></p>
         <hr>
-        <p style="font-size: 1.1em; color: #5a5a5a;">**硬性停損**價格 (${S_stop * 100}%): <strong>$${P_hard_stop.toFixed(2)}</strong></p>
+        <p style="font-size: 1.1em; color: #5a5a5a;">**停損**價格 (${S_stop * 100}%): <strong>$${P_hard_stop.toFixed(2)}</strong></p>
     `;
 }
 </script>
