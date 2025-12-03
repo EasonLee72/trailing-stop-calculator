@@ -126,11 +126,11 @@
     </div>
 
     <div class="section">
-        <h3>2. 交易數據輸入 (USD)</h3>
-        <label for="C">成本價 ($C$)</label>
+        <h3>2. 交易數據輸入</h3>
+        <label for="C">成本價</label>
         <input type="number" id="C" placeholder="輸入成本價" value="288.5" min="0" step="0.01">
 
-        <label for="P_high">買進後最高價 ($P_{high}$)</label>
+        <label for="P_high">買進後最高價</label>
         <input type="number" id="P_high" placeholder="輸入最高價" value="323.43" min="0" step="0.01">
     </div>
 
@@ -148,7 +148,7 @@
         <div id="washout_content" class="policy-content">
             <h5>【低利潤防洗出與二階鎖利預告】</h5>
             <p><strong>防洗出策略 (ATR 應用):</strong></p>
-            <p>當獲利剛超過 ${T_{start}}$% 門檻時，若鎖定比例過高 (例如 $70\%$)，導致的回撤空間 (${100-L}$% 的利潤) 可能小於股票的平均波動。建議在剛啟動時，將鎖定比例調低（如 $65\%$），讓出的 $35\%$ 利潤空間可覆蓋股價的日常回檔。</p>
+            <p>當獲利剛超過啟動門檻時，若鎖定利潤的比例（例如 70%）設定過高，則留給股價波動的空間會不足。這可能導致正常的市場回檔就觸發停利。因此，建議在剛啟動時，將鎖定比例適度調低（例如 65%），讓出的利潤空間可有效覆蓋股價的日常波動。</p>
             <p><strong>進階二階鎖利功能已開放！</strong> 適用於高額獲利情況，能更有效地鎖定戰果。</p>
             <p style="text-align: center; margin-top: 15px;">
                 <a href="trailing_stop_calculator2.html" style="background-color: #f7a83d; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;">前往使用二階鎖利計算器</a>
