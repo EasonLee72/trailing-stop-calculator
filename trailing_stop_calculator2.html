@@ -159,32 +159,32 @@
         <h3>1. 策略參數設定 (%)</h3>
         
         <label for="T_start">移動停利啟動門檻 (階段一啟動, 預設10%)</label>
-        <input type="number" id="T_start" value="10" min="0" step="0.1">
+        <input type="number" id="T_start" value="10" min="0" step="0.1" inputmode="decimal">
         
         <label for="L1">階段一鎖定比例 (低獲利防洗出, 預設60%)</label>
-        <input type="number" id="L1" value="60" min="0" max="100" step="1">
+        <input type="number" id="L1" value="60" min="0" max="100" step="1" inputmode="decimal">
 
         <hr style="margin: 20px 0;">
 
         <label for="T_switch">**階段切換門檻** (切換到高鎖定比例, 預設15%)</label>
-        <input type="number" id="T_switch" value="15" min="0" step="0.1">
+        <input type="number" id="T_switch" value="15" min="0" step="0.1" inputmode="decimal">
         
         <label for="L2">**階段二鎖定比例** (高獲利鎖定, 預設70%)</label>
-        <input type="number" id="L2" value="70" min="0" max="100" step="1">
+        <input type="number" id="L2" value="70" min="0" max="100" step="1" inputmode="decimal">
 
         <hr style="margin: 20px 0;">
 
         <label for="S_stop">停損比例 (預設5%)</label>
-        <input type="number" id="S_stop" value="5" min="0" step="0.1">
+        <input type="number" id="S_stop" value="5" min="0" step="0.1" inputmode="decimal">
     </div>
 
     <div class="section">
         <h3>2. 交易數據輸入</h3>
         <label for="C">成本價</label>
-        <input type="number" id="C" placeholder="輸入成本價" value="100" min="0" step="0.01">
+        <input type="number" id="C" placeholder="輸入成本價" value="100" min="0" step="0.01" inputmode="decimal">
 
         <label for="P_high">買進後最高價(建議使用每日收盤價)</label>
-        <input type="number" id="P_high" placeholder="輸入最高價" value="114" min="0" step="0.01">
+        <input type="number" id="P_high" placeholder="輸入最高價" value="114" min="0" step="0.01" inputmode="decimal">
     </div>
 
     <button onclick="calculateStopPrice()">計算目前的停利與停損價格</button>
@@ -332,6 +332,7 @@ function calculateStopPrice() {
 
 </body>
 </html>
+
 
 
 
