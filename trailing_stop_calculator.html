@@ -165,22 +165,22 @@
     <div class="section" id="settings">
         <h3>1. 策略參數設定 (%)</h3>
         <label for="T_start">移動停利啟動門檻 (預設10%)</label>
-        <input type="number" id="T_start" value="10" min="0" step="0.1">
+        <input type="number" id="T_start" value="10" min="0" step="0.1" inputmode="decimal">
 
         <label for="L1">獲利鎖定比例 (預設70%)</label>
-        <input type="number" id="L1" value="70" min="0" max="100" step="1">
+        <input type="number" id="L1" value="70" min="0" max="100" step="1" inputmode="decimal">
 
         <label for="S_stop">停損比例 (預設5%)</label>
-        <input type="number" id="S_stop" value="5" min="0" step="0.1">
+        <input type="number" id="S_stop" value="5" min="0" step="0.1" inputmode="decimal">
     </div>
 
     <div class="section">
         <h3>2. 交易數據輸入</h3>
         <label for="C">成本價</label>
-        <input type="number" id="C" placeholder="輸入成本價" value="100" min="0" step="0.01">
+        <input type="number" id="C" placeholder="輸入成本價" value="100" min="0" step="0.01" inputmode="decimal">
 
         <label for="P_high">買進後最高價(建議使用每日收盤價)</label>
-        <input type="number" id="P_high" placeholder="輸入最高價" value="114" min="0" step="0.01">
+        <input type="number" id="P_high" placeholder="輸入最高價" value="114" min="0" step="0.01" inputmode="decimal">
     </div>
 
     <button onclick="calculateStopPrice()">計算目前的停利與停損價格</button>
@@ -333,6 +333,7 @@ function calculateStopPrice() {
 
 </body>
 </html>
+
 
 
 
