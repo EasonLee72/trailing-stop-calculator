@@ -555,9 +555,14 @@ function createNewStock() {
 }
 
 function saveCurrentData() {
+    // 如果還沒有選擇股票，自動選擇第一個空插槽
     if (currentStockIndex === -1) {
-        alert('請先選擇或新增股票記錄！');
-        return;
+        const emptyIndex = stocks.findIndex(s => s === null);
+        if (emptyIndex === -1) {
+            alert('已達 5 檔股票記錄上限！');
+            return;
+        }
+        currentStockIndex = emptyIndex;
     }
     const name = document.getElementById('stockName').value.trim();
     if (!name) {
