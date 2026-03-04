@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133062875898086"
-          crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133062875898086" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-6133062875898086">
-    <title>股市醫生李的二階移動停利計算器 - 進階鎖利工具</title>
+    <title data-i18n="title">股市醫生李的二階移動停利計算器 - 進階鎖利工具</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133062875898086" crossorigin="anonymous"></script>
+    
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
@@ -15,37 +19,120 @@
             color: #333;
         }
         .container {
-            max-width: 650px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 30px;
             background-color: #fff;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        /* 標題樣式調整 */
-        h2 {
-            color: #dc3545; /* 突出二階的顏色 */
-            border-bottom: 2px solid #dc3545;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            text-align: center;
+        
+        /* Language Selector */
+        .lang-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
         }
-        h3 {
-            color: #218838;
+        .lang-btn {
+            background: linear-gradient(145deg, #007bff 0%, #0056b3 100%);
+            border: 2px solid #004085;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            transition: all 0.2s;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
         }
-        .section {
-            margin-bottom: 25px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        .lang-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0,123,255,0.5);
         }
-        label {
+        .lang-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: linear-gradient(145deg, #fff 0%, #f8f9fa 100%);
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 10px 0;
+            min-width: 180px;
+            display: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .lang-dropdown.show { display: block; animation: slideDown 0.2s ease; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-dropdown a {
             display: block;
-            margin-bottom: 5px;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .lang-dropdown a:hover {
+            background: rgba(0,123,255,0.1);
+            color: #007bff;
+        }
+        .lang-dropdown a.active {
+            background: rgba(0,123,255,0.2);
+            color: #007bff;
             font-weight: bold;
         }
-        input[type="number"] {
-            width: calc(100% - 12px);
+        
+        /* Stock Slots */
+        .stock-slots {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .stock-slot {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .stock-slot:hover {
+            border-color: #007bff;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.2);
+        }
+        .stock-slot.active {
+            border-color: #007bff;
+            background: #e7f3ff;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+        }
+        .stock-slot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .stock-name {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .stock-empty {
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        h2 { color: #dc3545; border-bottom: 2px solid #dc3545; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+        h3 { color: #218838; margin: 15px 0 10px; }
+        .section { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] {
+            width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
@@ -53,7 +140,7 @@
             box-sizing: border-box;
         }
         button {
-            background-color: #dc3545; /* 配合二階主題色 */
+            background-color: #dc3545;
             color: white;
             padding: 12px 20px;
             border: none;
@@ -62,168 +149,459 @@
             font-size: 16px;
             width: 100%;
             transition: background-color 0.3s;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
-        button:hover {
-            background-color: #c82333;
-        }
+        button:hover { background-color: #c82333; }
+        .btn-secondary { background-color: #6c757d; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        .btn-success { background-color: #28a745; }
+        .btn-success:hover { background-color: #218838; }
         .result {
             margin-top: 30px;
             padding: 20px;
-            background-color: #f8d7da; /* 輕微警示色 */
+            background-color: #f8d7da;
             border-radius: 8px;
             font-size: 1.1em;
-            text-align: left; /* 確保內容靠左對齊 */
-        }
-        .result strong {
-            color: #491217;
-            font-size: 1.5em;
-        }
-        .footer-links {
-            margin-top: 30px;
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-            text-align: center;
-        }
-        .footer-links a {
-            margin: 0 15px;
-            color: #007bff;
-            text-decoration: none;
-        }
-        .policy-content {
-            display: none;
-            margin-top: 15px;
-            padding: 10px;
-            border: 1px dashed #ccc;
-            background-color: #f9f9f9;
             text-align: left;
-            font-size: 0.9em;
         }
-        .tip-box {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #bee5eb;
-            margin-top: 20px;
-        }
-        /* 新增教育區塊樣式 */
-        .education-link {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-        .education-content {
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #eee;
-            margin-bottom: 25px;
-            font-size: 0.95em;
+        .result strong { color: #491217; font-size: 1.5em; }
+        .footer-links { margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px; text-align: center; }
+        .footer-links a { margin: 0 15px; color: #007bff; text-decoration: none; }
+        .policy-content { display: none; margin-top: 15px; padding: 10px; border: 1px dashed #ccc; background-color: #f9f9f9; text-align: left; font-size: 0.9em; }
+        .tip-box { background-color: #d1ecf1; color: #0c5460; padding: 15px; border-radius: 5px; border: 1px solid #bee5eb; margin-top: 20px; }
+        .education-link { text-align: center; margin-bottom: 15px; font-size: 1.1em; }
+        .education-content { background-color: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 25px; font-size: 0.95em; }
+        
+        @media (max-width: 600px) {
+            .lang-selector { top: 10px; right: 10px; }
+            .lang-btn { width: 45px; height: 45px; font-size: 1.3em; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<!-- Language Selector -->
+<div class="lang-selector">
+    <button class="lang-btn" onclick="toggleLangDropdown()" title="選擇語言">🌐</button>
+    <div class="lang-dropdown" id="langDropdown">
+        <a onclick="setLanguage('zh-TW')" class="active">🇹🇼 繁體中文</a>
+        <a onclick="setLanguage('zh-CN')">🇨🇳 简体中文</a>
+        <a onclick="setLanguage('en')">🇺🇸 English</a>
+        <a onclick="setLanguage('ja')">🇯🇵 日本語</a>
+    </div>
+</div>
 
-    <h2 style="color: #dc3545; border-bottom: 2px solid #dc3545; padding-bottom: 10px; margin-bottom: 20px; text-align: center;">
-        🏆 二階移動停利計算器
-    </h2>
-    <p>本工具適用於獲利豐厚的部位，可設定兩個不同的鎖定比例，應對不同的獲利階段，實現最大的利潤保護。</p>
+<div class="container">
+    <h2 data-i18n="title2">🏆 二階移動停利計算器</h2>
+    <p data-i18n="subtitle">本工具適用於獲利豐厚的部位，可設定兩個不同的鎖定比例，應對不同的獲利階段，實現最大的利潤保護。</p>
+
+    <!-- 股票插槽選擇 -->
+    <div class="stock-slots">
+        <h3 data-i18n="stockSlots">📊 股票記錄（最多 5 檔）</h3>
+        <div id="stockSlotsContainer"></div>
+        <button class="btn-success" onclick="createNewStock()" data-i18n="newStock">➕ 新增股票記錄</button>
+    </div>
 
     <div class="education-link">
-        <a href="javascript:void(0)" onclick="togglePolicy('why_stop')" style="font-weight:bold;">👉 為何要使用移動停利？點此瞭解好處</a>
+        <a href="javascript:void(0)" onclick="togglePolicy('why_stop')" style="font-weight:bold;" data-i18n="whyStopLink">👉 為何要使用移動停利？點此瞭解好處</a>
     </div>
 
     <div id="why_stop_content" class="policy-content education-content">
-        <h5>💡 移動停利的好處</h5>
-        <p>「移動停利」能讓您用極小的風險，享受無上限的成長潛力！</p>
+        <h5 data-i18n="whyStopTitle">💡 移動停利的好處</h5>
+        <p data-i18n="whyStopIntro">「移動停利」能讓您用極小的風險，享受無上限的成長潛力！</p>
         <ol style="padding-left: 20px;">
-            <li>**【捕捉飆股】不再被甩轎下車：** <p style="margin: 5px 0 5px 10px;">
-                    **飆股人人都買過，但通常都在大漲前或被主力「甩轎」時慌張出場。** 移動停利機制能讓您在股價起飛時，用一個紀律性的回撤幅度當作保護線，**確保您不會因短期波動而錯失數倍漲幅。**
-                </p>
-            </li>
-            <li>**【鎖定戰果】守護已實現的利潤：** <p style="margin: 5px 0 5px 10px;">
-                    停利點隨股價同步上移，一旦獲利，它就成為您的「保底獲利線」。這確保了您的出場點永遠高於成本價，讓您將大部分賺到的錢鎖入口袋，不再經歷利潤歸零的痛苦。
-                </p>
-            </li>
-            <li>**【戰勝情緒】以紀律執行策略：** <p style="margin: 5px 0 5px 10px;">
-                    將複雜的賣出決策交給計算器和數據。您只需專注於買入，賣出則交給預設好的規則，輕鬆戰勝人性中的貪婪與恐懼。
-                </p>
-            </li>
+            <li data-i18n="whyStop1"><strong>【捕捉飆股】不再被甩轎下車：</strong> 飆股人人都買過，但通常都在大漲前或被主力「甩轎」時慌張出場。移動停利機制能讓您在股價起飛時，用一個紀律性的回撤幅度當作保護線，確保您不會因短期波動而錯失數倍漲幅。</li>
+            <li data-i18n="whyStop2"><strong>【鎖定戰果】守護已實現的利潤：</strong> 停利點隨股價同步上移，一旦獲利，它就成為您的「保底獲利線」。這確保了您的出場點永遠高於成本價，讓您將大部分賺到的錢鎖入口袋，不再經歷利潤歸零的痛苦。</li>
+            <li data-i18n="whyStop3"><strong>【戰勝情緒】以紀律執行策略：</strong> 將複雜的賣出決策交給計算器和數據。您只需專注於買入，賣出則交給預設好的規則，輕鬆戰勝人性中的貪婪與恐懼。</li>
         </ol>
     </div>
 
     <div class="section" id="settings">
-        <h3>1. 策略參數設定 (%)</h3>
+        <h3 data-i18n="section1">1. 策略參數設定 (%)</h3>
         
-        <label for="T_start">移動停利啟動門檻 (階段一啟動, 預設10%)</label>
+        <label for="T_start" data-i18n="labelTstart">移動停利啟動門檻 (階段一啟動，預設 10%)</label>
         <input type="number" id="T_start" value="10" min="0" step="0.1" inputmode="decimal">
         
-        <label for="L1">階段一鎖定比例 (低獲利防洗出, 預設60%)</label>
+        <label for="L1" data-i18n="labelL1">階段一鎖定比例 (低獲利防洗出，預設 60%)</label>
         <input type="number" id="L1" value="60" min="0" max="100" step="1" inputmode="decimal">
 
         <hr style="margin: 20px 0;">
 
-        <label for="T_switch">**階段切換門檻** (切換到高鎖定比例, 預設15%)</label>
+        <label for="T_switch" data-i18n="labelTswitch"><strong>階段切換門檻</strong> (切換到高鎖定比例，預設 15%)</label>
         <input type="number" id="T_switch" value="15" min="0" step="0.1" inputmode="decimal">
         
-        <label for="L2">**階段二鎖定比例** (高獲利鎖定, 預設70%)</label>
+        <label for="L2" data-i18n="labelL2"><strong>階段二鎖定比例</strong> (高獲利鎖定，預設 70%)</label>
         <input type="number" id="L2" value="70" min="0" max="100" step="1" inputmode="decimal">
 
         <hr style="margin: 20px 0;">
 
-        <label for="S_stop">停損比例 (預設5%)</label>
+        <label for="S_stop" data-i18n="labelSstop">停損比例 (預設 5%)</label>
         <input type="number" id="S_stop" value="5" min="0" step="0.1" inputmode="decimal">
     </div>
 
     <div class="section">
-        <h3>2. 交易數據輸入</h3>
-        <label for="C">成本價</label>
+        <h3 data-i18n="section2">2. 交易數據輸入</h3>
+        
+        <label for="stockName" data-i18n="labelStockName">股票名稱/代號</label>
+        <input type="text" id="stockName" placeholder="例如：2330 台積電" data-i18n-placeholder="phStockName">
+
+        <label for="C" data-i18n="labelCost">成本價</label>
         <input type="number" id="C" placeholder="輸入成本價" value="100" min="0" step="0.01" inputmode="decimal">
 
-        <label for="P_high">買進後最高價(建議使用每日收盤價)</label>
+        <label for="P_high" data-i18n="labelHigh">買進後最高價 (建議使用每日收盤價)</label>
         <input type="number" id="P_high" placeholder="輸入最高價" value="114" min="0" step="0.01" inputmode="decimal">
     </div>
 
-    <button onclick="calculateStopPrice()">計算目前的停利與停損價格</button>
+    <button onclick="calculateStopPrice()" data-i18n="btnCalculate">計算目前的停利與停損價格</button>
+    <button class="btn-success" onclick="saveCurrentData()" data-i18n="btnSave">💾 儲存此股票數據</button>
+    <button class="btn-secondary" onclick="clearCurrentData()" data-i18n="btnClear">🗑️ 清除目前數據</button>
 
-    <div class="result" id="output">
+    <div class="result" id="output" data-i18n="outputDefault">
         請輸入數據並點擊計算。
     </div>
 
     <div class="tip-box">
-        <h4>💡 策略提示：階段二的必要性</h4>
-        <p>階段二提供更保守的鎖定比例，確保您在獲利豐厚時，能有效鎖定大部分戰果。這個設計是為了讓您的資金配置更加安全。</p>
+        <h4 data-i18n="tipTitle">💡 策略提示：階段二的必要性</h4>
+        <p data-i18n="tipContent">階段二提供更保守的鎖定比例，確保您在獲利豐厚時，能有效鎖定大部分戰果。這個設計是為了讓您的資金配置更加安全。</p>
         <p style="text-align: center; margin-top: 15px;">
-            <a href="index.html" style="background-color: #007bff; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;">返回單階鎖利計算器</a>
+            <a href="index.html" style="background-color: #007bff; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;" data-i18n="backToSingle">返回單階鎖利計算器</a>
         </p>
     </div>
     
     <div class="footer-links">
-        <a href="javascript:void(0)" onclick="togglePolicy('terms')">服務條款 (Terms)</a> | 
-        <a href="javascript:void(0)" onclick="togglePolicy('privacy')">隱私政策 (Privacy)</a>        
+        <a href="javascript:void(0)" onclick="togglePolicy('terms')" data-i18n="terms">服務條款 (Terms)</a> | 
+        <a href="javascript:void(0)" onclick="togglePolicy('privacy')" data-i18n="privacy">隱私政策 (Privacy)</a>        
     </div>
 
     <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
-        <p style="font-size: 0.9em; color: #5a5a5a; margin-bottom: 10px;">
-            由 股市醫生李 設計提供
-        </p>
+        <p style="font-size: 0.9em; color: #5a5a5a; margin-bottom: 10px;" data-i18n="footer">由 股市醫生李 設計提供</p>
         <img src="my_sketch_logo.png" alt="股市醫生李的標誌" style="height: 35px; border-radius: 5px; object-fit: cover; opacity: 0.8;">
     </div>
 
     <div id="terms_content" class="policy-content">
-        <h5>服務條款</h5>
-        <p>本計算器提供的所有數據僅供參考和教育目的。本工具不構成任何形式的投資建議、招攬或誘導。您應當根據自身的財務狀況、風險承受能力和獨立判斷進行投資決策。使用本工具產生的一切後果，由用戶自行承擔。我們不對因使用本工具而導致的任何損失或損害負責。</p>
+        <h5 data-i18n="termsTitle">服務條款</h5>
+        <p data-i18n="termsContent">本計算器提供的所有數據僅供參考和教育目的。本工具不構成任何形式的投資建議、招攬或誘導。您應當根據自身的財務狀況、風險承受能力和獨立判斷進行投資決策。使用本工具產生的一切後果，由用戶自行承擔。我們不對因使用本工具而導致的任何損失或損害負責。</p>
     </div>
     <div id="privacy_content" class="policy-content">
-        <h5>隱私政策</h5>
-        <p>本網站不會收集、儲存或分享任何用戶的個人身份資訊 (Personally Identifiable Information, PII)。所有計算均在您的瀏覽器本地完成，輸入的成本價和最高價等數據不會被傳輸到伺服器或被我們記錄。若本網站未來使用 Google AdSense，Google 可能會收集非個人身份資訊以進行廣告投放，詳情請參考 Google 的隱私政策。</p>
+        <h5 data-i18n="privacyTitle">隱私政策</h5>
+        <p data-i18n="privacyContent">本網站不會收集、儲存或分享任何用戶的個人身份資訊 (Personally Identifiable Information, PII)。所有計算均在您的瀏覽器本地完成，輸入的成本價和最高價等數據不會被傳輸到伺服器或被我們記錄。若本網站未來使用 Google AdSense，Google 可能會收集非個人身份資訊以進行廣告投放，詳情請參考 Google 的隱私政策。</p>
     </div>
 </div>
 
 <script>
+// -------------------- 多語言翻譯 --------------------
+const translations = {
+    'zh-TW': {
+        title: '股市醫生李的二階移動停利計算器 - 進階鎖利工具',
+        title2: '🏆 二階移動停利計算器',
+        subtitle: '本工具適用於獲利豐厚的部位，可設定兩個不同的鎖定比例，應對不同的獲利階段，實現最大的利潤保護。',
+        stockSlots: '📊 股票記錄（最多 5 檔）',
+        newStock: '➕ 新增股票記錄',
+        whyStopLink: '👉 為何要使用移動停利？點此瞭解好處',
+        whyStopTitle: '💡 移動停利的好處',
+        whyStopIntro: '「移動停利」能讓您用極小的風險，享受無上限的成長潛力！',
+        whyStop1: '<strong>【捕捉飆股】不再被甩轎下車：</strong> 飆股人人都買過，但通常都在大漲前或被主力「甩轎」時慌張出場。移動停利機制能讓您在股價起飛時，用一個紀律性的回撤幅度當作保護線，確保您不會因短期波動而錯失數倍漲幅。',
+        whyStop2: '<strong>【鎖定戰果】守護已實現的利潤：</strong> 停利點隨股價同步上移，一旦獲利，它就成為您的「保底獲利線」。這確保了您的出場點永遠高於成本價，讓您將大部分賺到的錢鎖入口袋，不再經歷利潤歸零的痛苦。',
+        whyStop3: '<strong>【戰勝情緒】以紀律執行策略：</strong> 將複雜的賣出決策交給計算器和數據。您只需專注於買入，賣出則交給預設好的規則，輕鬆戰勝人性中的貪婪與恐懼。',
+        section1: '1. 策略參數設定 (%)',
+        labelTstart: '移動停利啟動門檻 (階段一啟動，預設 10%)',
+        labelL1: '階段一鎖定比例 (低獲利防洗出，預設 60%)',
+        labelTswitch: '<strong>階段切換門檻</strong> (切換到高鎖定比例，預設 15%)',
+        labelL2: '<strong>階段二鎖定比例</strong> (高獲利鎖定，預設 70%)',
+        labelSstop: '停損比例 (預設 5%)',
+        section2: '2. 交易數據輸入',
+        labelStockName: '股票名稱/代號',
+        phStockName: '例如：2330 台積電',
+        labelCost: '成本價',
+        labelHigh: '買進後最高價 (建議使用每日收盤價)',
+        btnCalculate: '計算目前的停利與停損價格',
+        btnSave: '💾 儲存此股票數據',
+        btnClear: '🗑️ 清除目前數據',
+        outputDefault: '請輸入數據並點擊計算。',
+        tipTitle: '💡 策略提示：階段二的必要性',
+        tipContent: '階段二提供更保守的鎖定比例，確保您在獲利豐厚時，能有效鎖定大部分戰果。這個設計是為了讓您的資金配置更加安全。',
+        backToSingle: '返回單階鎖利計算器',
+        terms: '服務條款 (Terms)',
+        privacy: '隱私政策 (Privacy)',
+        footer: '由 股市醫生李 設計提供',
+        termsTitle: '服務條款',
+        termsContent: '本計算器提供的所有數據僅供參考和教育目的。本工具不構成任何形式的投資建議、招攬或誘導。您應當根據自身的財務狀況、風險承受能力和獨立判斷進行投資決策。使用本工具產生的一切後果，由用戶自行承擔。我們不對因使用本工具而導致的任何損失或損害負責。',
+        privacyTitle: '隱私政策',
+        privacyContent: '本網站不會收集、儲存或分享任何用戶的個人身份資訊 (Personally Identifiable Information, PII)。所有計算均在您的瀏覽器本地完成，輸入的成本價和最高價等數據不會被傳輸到伺服器或被我們記錄。若本網站未來使用 Google AdSense，Google 可能會收集非個人身份資訊以進行廣告投放，詳情請參考 Google 的隱私政策。',
+        stockSlot: '檔股票',
+        emptyStock: '（空）',
+        confirmDelete: '確定要清除此股票的數據嗎？'
+    },
+    'zh-CN': {
+        title: '股市医生李的二阶移动停利计算器 - 进阶锁利工具',
+        title2: '🏆 二阶移动停利计算器',
+        subtitle: '本工具适用于获利丰厚的部位，可设定两个不同的锁定比例，应对不同的获利阶段，实现最大的利润保护。',
+        stockSlots: '📊 股票记录（最多 5 档）',
+        newStock: '➕ 新增股票记录',
+        whyStopLink: '👉 为何要使用移动停利？点此了解好处',
+        whyStopTitle: '💡 移动停利的好处',
+        whyStopIntro: '「移动停利」能让您用极小的风险，享受无上限的成长潜力！',
+        whyStop1: '<strong>【捕捉飙股】不再被甩轿下车：</strong> 飙股人人都买过，但通常都在大涨前或被主力「甩轿」时慌张出场。移动停利机制能让您在股价起飞时，用一个纪律性的回撤幅度当作保护线，确保您不会因短期波动而错失数倍涨幅。',
+        whyStop2: '<strong>【锁定战果】守护已实现的利润：</strong> 停利点随股价同步上移，一旦获利，它就成为您的「保底获利线」。这确保了您的出场点永远高于成本价，让您将大部分赚到的钱锁入口袋，不再经历利润归零的痛苦。',
+        whyStop3: '<strong>【战胜情绪】以纪律执行策略：</strong> 将复杂的卖出决策交给计算器和数据。您只需专注于买入，卖出则交给预设好的规则，轻松战胜人性中的贪婪与恐惧。',
+        section1: '1. 策略参数设定 (%)',
+        labelTstart: '移动停利启动门槛 (阶段一启动，预设 10%)',
+        labelL1: '阶段一锁定比例 (低获利防洗出，预设 60%)',
+        labelTswitch: '<strong>阶段切换门槛</strong> (切换到高锁定比例，预设 15%)',
+        labelL2: '<strong>阶段二锁定比例</strong> (高获利锁定，预设 70%)',
+        labelSstop: '停损比例 (预设 5%)',
+        section2: '2. 交易数据输入',
+        labelStockName: '股票名称/代号',
+        phStockName: '例如：2330 台积电',
+        labelCost: '成本价',
+        labelHigh: '买进后最高价 (建议使用每日收盘价)',
+        btnCalculate: '计算目前的停利与停损价格',
+        btnSave: '💾 储存此股票数据',
+        btnClear: '🗑️ 清除目前数据',
+        outputDefault: '请输入数据并点击计算。',
+        tipTitle: '💡 策略提示：阶段二的必要性',
+        tipContent: '阶段二提供更保守的锁定比例，确保您在获利丰厚时，能有效锁定大部分战果。这个设计是为了让您的资金配置更加安全。',
+        backToSingle: '返回单阶锁利计算器',
+        terms: '服务条款 (Terms)',
+        privacy: '隐私政策 (Privacy)',
+        footer: '由 股市医生李 设计提供',
+        termsTitle: '服务条款',
+        termsContent: '本计算器提供的所有数据仅供参考和教育目的。本工具不构成任何形式的投资建议、招揽或诱导。您应当根据自身的财务状况、风险承受能力和独立判断进行投资决策。使用本工具产生的一切后果，由用户自行承担。我们不对因使用本工具而导致的任何损失或损害负责。',
+        privacyTitle: '隐私政策',
+        privacyContent: '本网站不会收集、储存或分享任何用户的个人身份资讯 (Personally Identifiable Information, PII)。所有计算均在您的浏览器本地完成，输入的成本价和最高价等数据不会被传输到服务器或被我们记录。若本网站未来使用 Google AdSense，Google 可能会收集非个人身份资讯以进行广告投放，详情请参考 Google 的隐私政策。',
+        stockSlot: '档股票',
+        emptyStock: '（空）',
+        confirmDelete: '确定要消除此股票的数据吗？'
+    },
+    'en': {
+        title: 'Dr. Lee Stock Market - Stage 2 Trailing Stop Calculator',
+        title2: '🏆 Stage 2 Trailing Stop Calculator',
+        subtitle: 'This tool is designed for profitable positions, allowing you to set two different lock-in ratios for different profit stages to maximize profit protection.',
+        stockSlots: '📊 Stock Records (Max 5)',
+        newStock: '➕ Add New Stock',
+        whyStopLink: '👉 Why Use Trailing Stop? Click to Learn',
+        whyStopTitle: '💡 Benefits of Trailing Stop',
+        whyStopIntro: 'Trailing stop allows you to enjoy unlimited growth potential with minimal risk!',
+        whyStop1: '<strong>[Catch Rocket Stocks] Stay on Board:</strong> Everyone has bought rocket stocks, but often sells too early. Trailing stop mechanism provides a disciplined protection line during takeoff, ensuring you don\'t miss multi-bagger gains due to short-term volatility.',
+        whyStop2: '<strong>[Lock Profits] Protect Realized Gains:</strong> The stop level moves up with the stock price. Once profitable, it becomes your "profit floor", ensuring your exit point is always above cost.',
+        whyStop3: '<strong>[Beat Emotions] Execute with Discipline:</strong> Leave complex sell decisions to the calculator. Focus on buying, let预设 rules handle selling, beating greed and fear.',
+        section1: '1. Strategy Parameters (%)',
+        labelTstart: 'Trailing Stop Activation Threshold (Stage 1, Default 10%)',
+        labelL1: 'Stage 1 Lock-in Ratio (Default 60%)',
+        labelTswitch: '<strong>Stage Switch Threshold</strong> (Default 15%)',
+        labelL2: '<strong>Stage 2 Lock-in Ratio</strong> (Default 70%)',
+        labelSstop: 'Stop Loss Ratio (Default 5%)',
+        section2: '2. Trade Data Input',
+        labelStockName: 'Stock Name/Symbol',
+        phStockName: 'e.g., 2330 TSMC',
+        labelCost: 'Cost Price',
+        labelHigh: 'Highest Price After Purchase (Use Daily Close)',
+        btnCalculate: 'Calculate Current Stop Price',
+        btnSave: '💾 Save This Stock Data',
+        btnClear: '🗑️ Clear Current Data',
+        outputDefault: 'Please enter data and click calculate.',
+        tipTitle: '💡 Strategy Tip: Why Stage 2?',
+        tipContent: 'Stage 2 provides a more conservative lock-in ratio, ensuring you can lock in most profits when gains are substantial. This design makes your capital allocation safer.',
+        backToSingle: 'Back to Single-Stage Calculator',
+        terms: 'Terms of Service',
+        privacy: 'Privacy Policy',
+        footer: 'Designed by Dr. Lee Stock Market',
+        termsTitle: 'Terms of Service',
+        termsContent: 'All data provided by this calculator is for reference and educational purposes only. This tool does not constitute investment advice. You should make investment decisions based on your own financial situation, risk tolerance, and independent judgment.',
+        privacyTitle: 'Privacy Policy',
+        privacyContent: 'This website does not collect, store, or share any personally identifiable information (PII). All calculations are completed locally in your browser. Input data such as cost price and highest price will not be transmitted to servers.',
+        stockSlot: 'Stock',
+        emptyStock: '(Empty)',
+        confirmDelete: 'Are you sure you want to clear this stock\'s data?'
+    },
+    'ja': {
+        title: '株式市場博士リーの 2 段階トレーリングストップ計算器',
+        title2: '🏆 2 段階トレーリングストップ計算器',
+        subtitle: 'このツールは利益丰厚的なポジション向けで、2 つの異なるロックイン比率を設定し、利益段階に応じて最大の利益保護を実現します。',
+        stockSlots: '📊 株式記録（最大 5 銘柄）',
+        newStock: '➕ 新規株式追加',
+        whyStopLink: '👉 トレーリングストップを使う理由？クリックして確認',
+        whyStopTitle: '💡 トレーリングストップのメリット',
+        whyStopIntro: '「トレーリングストップ」は最小限のリスクで、無制限の成長ポテンシャルを楽しめます！',
+        whyStop1: '<strong>【急騰株を捕捉】乗り遅れない：</strong> 急騰株は誰しも買ったことがありますが、大半は急騰前か主力に「振り落とされる」時に慌てて売却します。',
+        whyStop2: '<strong>【利益ロック】実現利益を守護：</strong> 利益確定点は株価と共に上昇し、一度利益が出れば「最低利益ライン」になります。',
+        whyStop3: '<strong>【感情克服】規律ある実行：</strong> 複雑な売却判断を計算器とデータに任せましょう。',
+        section1: '1. 戦略パラメータ設定 (%)',
+        labelTstart: 'トレーリングストップ起動閾値 (段階 1、デフォルト 10%)',
+        labelL1: '段階 1 ロックイン比率 (デフォルト 60%)',
+        labelTswitch: '<strong>段階切替閾値</strong> (デフォルト 15%)',
+        labelL2: '<strong>段階 2 ロックイン比率</strong> (デフォルト 70%)',
+        labelSstop: '損切り比率 (デフォルト 5%)',
+        section2: '2. 取引データ入力',
+        labelStockName: '株式名/コード',
+        phStockName: '例：2330 TSMC',
+        labelCost: 'コスト価格',
+        labelHigh: '購入後最高値 (毎日終値を使用推奨)',
+        btnCalculate: '現在のストップ価格を計算',
+        btnSave: '💾 この株式データを保存',
+        btnClear: '🗑️ 現在のデータをクリア',
+        outputDefault: 'データを入力して計算をクリックしてください。',
+        tipTitle: '💡 戦略ヒント：段階 2 の必要性',
+        tipContent: '段階 2 はより保守的なロックイン比率を提供し、利益が丰厚的な時に大部分の戦果を効果的にロックします。',
+        backToSingle: '単段階計算器に戻る',
+        terms: '利用規約',
+        privacy: 'プライバシーポリシー',
+        footer: '株式市場博士リー設計提供',
+        termsTitle: '利用規約',
+        termsContent: 'この計算器が提供するすべてのデータは参考および教育目的のみです。このツールはいかなる投資助言、勧誘、誘導も構成しません。',
+        privacyTitle: 'プライバシーポリシー',
+        privacyContent: '当サイトはいかなるユーザーの個人識別情報 (PII) も収集、保存、共有しません。すべての計算はお客様のブラウザローカルで完了します。',
+        stockSlot: '銘柄',
+        emptyStock: '（空）',
+        confirmDelete: 'この株式のデータを消去してもよろしいですか？'
+    }
+};
+
+// -------------------- 全局變量 --------------------
+let currentStockIndex = -1;
+let stocks = [];
+
+// -------------------- 語言切換功能 --------------------
+function toggleLangDropdown() {
+    document.getElementById('langDropdown').classList.toggle('show');
+}
+
+function setLanguage(lang) {
+    localStorage.setItem('selectedLanguage', lang);
+    applyLanguage(lang);
+    document.getElementById('langDropdown').classList.remove('show');
+}
+
+function applyLanguage(lang) {
+    const t = translations[lang] || translations['zh-TW'];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) el.placeholder = t[key];
+    });
+    document.querySelectorAll('.lang-dropdown a').forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('onclick').includes(lang)) a.classList.add('active');
+    });
+    renderStockSlots();
+}
+
+function initLanguage() {
+    const savedLang = localStorage.getItem('selectedLanguage') || 'zh-TW';
+    applyLanguage(savedLang);
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.lang-selector')) {
+            document.getElementById('langDropdown').classList.remove('show');
+        }
+    });
+}
+
+// -------------------- 股票記錄功能 --------------------
+function loadStocks() {
+    const saved = localStorage.getItem('trailingStopStocks');
+    stocks = saved ? JSON.parse(saved) : [];
+    while (stocks.length < 5) stocks.push(null);
+    renderStockSlots();
+}
+
+function saveStocks() {
+    localStorage.setItem('trailingStopStocks', JSON.stringify(stocks));
+    renderStockSlots();
+}
+
+function renderStockSlots() {
+    const container = document.getElementById('stockSlotsContainer');
+    const t = translations[localStorage.getItem('selectedLanguage') || 'zh-TW'] || translations['zh-TW'];
+    container.innerHTML = stocks.map((stock, i) => `
+        <div class="stock-slot ${i === currentStockIndex ? 'active' : ''}" onclick="selectStock(${i})">
+            <div class="stock-slot-header">
+                <span class="stock-name">${stock ? (stock.name || `${i+1}${t.stockSlot}`) : `${i+1}${t.stockSlot} ${t.emptyStock}`}</span>
+                <span style="color: #6c757d; font-size: 0.9em;">${stock ? `💰 ${stock.C} / 📈 ${stock.P_high}` : ''}</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function selectStock(index) {
+    currentStockIndex = index;
+    const stock = stocks[index];
+    if (stock) {
+        document.getElementById('stockName').value = stock.name || '';
+        document.getElementById('C').value = stock.C || '';
+        document.getElementById('P_high').value = stock.P_high || '';
+        document.getElementById('T_start').value = stock.T_start || 10;
+        document.getElementById('L1').value = stock.L1 || 60;
+        document.getElementById('T_switch').value = stock.T_switch || 15;
+        document.getElementById('L2').value = stock.L2 || 70;
+        document.getElementById('S_stop').value = stock.S_stop || 5;
+    } else {
+        clearCurrentData();
+    }
+    renderStockSlots();
+}
+
+function createNewStock() {
+    const emptyIndex = stocks.findIndex(s => s === null);
+    if (emptyIndex === -1) {
+        alert('已達 5 檔股票記錄上限！');
+        return;
+    }
+    currentStockIndex = emptyIndex;
+    clearCurrentData();
+    document.getElementById('stockName').focus();
+}
+
+function saveCurrentData() {
+    if (currentStockIndex === -1) {
+        alert('請先選擇或新增股票記錄！');
+        return;
+    }
+    const name = document.getElementById('stockName').value.trim();
+    if (!name) {
+        alert('請輸入股票名稱/代號！');
+        return;
+    }
+    stocks[currentStockIndex] = {
+        name: name,
+        C: parseFloat(document.getElementById('C').value) || 0,
+        P_high: parseFloat(document.getElementById('P_high').value) || 0,
+        T_start: parseFloat(document.getElementById('T_start').value) || 10,
+        L1: parseFloat(document.getElementById('L1').value) || 60,
+        T_switch: parseFloat(document.getElementById('T_switch').value) || 15,
+        L2: parseFloat(document.getElementById('L2').value) || 70,
+        S_stop: parseFloat(document.getElementById('S_stop').value) || 5,
+        savedAt: Date.now()
+    };
+    saveStocks();
+    alert('✅ 數據已儲存！下次訪問時會自動載入。');
+}
+
+function clearCurrentData() {
+    if (currentStockIndex === -1) return;
+    const t = translations[localStorage.getItem('selectedLanguage') || 'zh-TW'] || translations['zh-TW'];
+    if (stocks[currentStockIndex] && !confirm(t.confirmDelete || '確定要清除此股票的數據嗎？')) return;
+    
+    document.getElementById('stockName').value = '';
+    document.getElementById('C').value = '100';
+    document.getElementById('P_high').value = '114';
+    document.getElementById('T_start').value = '10';
+    document.getElementById('L1').value = '60';
+    document.getElementById('T_switch').value = '15';
+    document.getElementById('L2').value = '70';
+    document.getElementById('S_stop').value = '5';
+    document.getElementById('output').innerHTML = t.outputDefault || '請輸入數據並點擊計算。';
+    
+    if (stocks[currentStockIndex]) {
+        stocks[currentStockIndex] = null;
+        saveStocks();
+    }
+    currentStockIndex = -1;
+    renderStockSlots();
+}
+
 // -------------------- 互動切換函數 --------------------
 function togglePolicy(id) {
     const content = document.getElementById(id + '_content');
@@ -231,9 +609,7 @@ function togglePolicy(id) {
         content.style.display = 'none';
     } else {
         document.querySelectorAll('.policy-content').forEach(el => {
-            if (el.id !== id + '_content') {
-                el.style.display = 'none';
-            }
+            if (el.id !== id + '_content') el.style.display = 'none';
         });
         content.style.display = 'block';
     }
@@ -241,95 +617,60 @@ function togglePolicy(id) {
 
 // -------------------- 計算邏輯函數 --------------------
 function calculateStopPrice() {
-    // 獲取輸入數據 (C:成本價, P_high:最高價)
     const C = parseFloat(document.getElementById('C').value);
     const P_high = parseFloat(document.getElementById('P_high').value);
-
-    // 獲取系統參數
     const T_start = parseFloat(document.getElementById('T_start').value) / 100;
+    const L1 = parseFloat(document.getElementById('L1').value) / 100;
     const T_switch = parseFloat(document.getElementById('T_switch').value) / 100;
-    const L1 = parseFloat(document.getElementById('L1').value) / 100; // 階段一鎖定比例
-    const L2 = parseFloat(document.getElementById('L2').value) / 100; // 階段二鎖定比例
+    const L2 = parseFloat(document.getElementById('L2').value) / 100;
     const S_stop = parseFloat(document.getElementById('S_stop').value) / 100;
 
-    const outputDiv = document.getElementById('output');
-
-    // 基礎數據檢查
-    if (isNaN(C) || isNaN(P_high) || C <= 0 || P_high <= 0 || T_start >= T_switch) {
-        outputDiv.innerHTML = "<strong>錯誤：</strong>請檢查輸入數據和參數設置（啟動門檻必須小於切換門檻）。";
-        return;
-    }
-    
-    // --- 核心計算 ---
-    
-    const P_hard_stop = C * (1 - S_stop); // 硬性停損價
-    const G_total = P_high - C; // 總獲利金額
-    const profit_pct = G_total / C; // 總獲利百分比
-
-    let P_stop = P_hard_stop; 
-    let L_current = 0; // 當前使用的鎖定比例
-    let strategy_stage = "";
-
-    // 1. 未達啟動門檻 ( profit_pct < T_start)
-    if (profit_pct < T_start) {
-        if (P_high <= C) {
-            strategy_stage = `<span style="color:red;">未獲利，硬性停損保護中</span>`;
-        } else {
-             strategy_stage = `<span style="color:orange;">已獲利但未啟動移動停利</span>`;
-        }
-        
-        outputDiv.innerHTML = `
-            <p>最高獲利百分比：${(profit_pct * 100).toFixed(2)}%</p>
-            <p><strong>${strategy_stage}</strong></p>
-            <p>需達 ${T_start * 100}% (價格 $${(C * (1 + T_start)).toFixed(2)}) 才會啟動移動停利。</p>
-            <hr>
-            <p style="font-size: 1.1em;">目前的硬性停損價格：<strong>$${P_hard_stop.toFixed(2)}</strong></p>
-        `;
+    if (isNaN(C) || isNaN(P_high) || C <= 0 || P_high <= 0) {
+        document.getElementById('output').innerHTML = '<span style="color: red;">⚠️ 請輸入有效的成本價和最高價！</span>';
         return;
     }
 
-    // 2. 階段一移動停利 (T_start <= profit < T_switch)
-    else if (profit_pct < T_switch) {
-        L_current = L1;
-        const G_locked = G_total * L_current;
-        P_stop = C + G_locked;
-        strategy_stage = `<span style="color:#007bff;">階段一 (鎖定 ${L_current * 100}%)</span>`;
+    const gainRatio = (P_high - C) / C;
+    let stopPrice = 0;
+    let stage = 0;
+    let message = '';
+
+    if (gainRatio < T_start) {
+        stage = 0;
+        stopPrice = C * (1 - S_stop);
+        message = `目前獲利 ${(gainRatio * 100).toFixed(2)}% < 啟動門檻 ${(T_start * 100).toFixed(1)}%，尚未啟動移動停利機制。`;
+    } else if (gainRatio >= T_start && gainRatio < T_switch) {
+        stage = 1;
+        stopPrice = C * (1 + gainRatio * L1);
+        message = `✅ <strong>階段一啟動中！</strong><br>目前獲利 ${(gainRatio * 100).toFixed(2)}%，使用階段一鎖定比例 ${L1 * 100}%。`;
+    } else {
+        stage = 2;
+        stopPrice = C * (1 + gainRatio * L2);
+        message = `🎯 <strong>階段二啟動中！</strong><br>目前獲利 ${(gainRatio * 100).toFixed(2)}%，使用階段二鎖定比例 ${L2 * 100}%。`;
     }
 
-    // 3. 階段二移動停利 (profit >= T_switch)
-    else {
-        L_current = L2;
-        const G_locked = G_total * L_current;
-        P_stop = C + G_locked;
-        strategy_stage = `<span style="color:#dc3545;">**階段二** (鎖定 ${L_current * 100}%)</span>`;
-    }
+    const stopLossPrice = C * (1 - S_stop);
+    const currentPrice = P_high;
+    const profitPerShare = stopPrice - C;
 
-    // 顯示最終結果
-    const final_stop_price = Math.max(P_stop, P_hard_stop); 
-    const guaranteed_profit_pct = (final_stop_price - C) / C * 100; // 鎖定保底獲利百分比
-
-    outputDiv.innerHTML = `
-        <div style="text-align: center;"> 
-            <p style="font-size: 1.2em; color: #dc3545; margin-bottom: 5px;">目前的**移動停利**價格：</p>
-            <p style="font-size: 2em; margin-top: -10px;"><strong>$${final_stop_price.toFixed(2)}</strong></p>
-        </div>
-        <hr>
-        
-        <p>持有期間最高獲利百分比：<strong>${(profit_pct * 100).toFixed(2)}%</strong></p>
-        <p>適用策略：${strategy_stage}</p>
-        <p>鎖定利潤金額：$${(final_stop_price - C).toFixed(2)}</p>
-        <p style="font-size: 1.1em;">鎖定保底獲利：<strong>${guaranteed_profit_pct.toFixed(2)}%</strong></p>
-        <hr>        
-        <p style="font-size: 1.1em; color: #5a5a5a;">**停損**價格 (${S_stop * 100}%): <strong>$${P_hard_stop.toFixed(2)}</strong></p>
+    document.getElementById('output').innerHTML = `
+        ${message}
+        <br><br>
+        <strong>📊 計算結果：</strong><br>
+        目前股價：${currentPrice.toFixed(2)}<br>
+        <strong style="color: #28a745;">停利價格：${stopPrice.toFixed(2)}</strong><br>
+        <strong style="color: #dc3545;">停損價格：${stopLossPrice.toFixed(2)}</strong><br>
+        預估每股利潤：${profitPerShare.toFixed(2)} (${(profitPerShare / C * 100).toFixed(2)}%)<br>
+        ${stage > 0 ? `<br>💡 建議：股價已超過啟動門檻，請密切關注停利價格變化！` : ''}
     `;
 }
+
+// -------------------- 初始化 --------------------
+document.addEventListener('DOMContentLoaded', function() {
+    initLanguage();
+    loadStocks();
+});
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
