@@ -252,8 +252,8 @@
         <input type="number" id="P_high" placeholder="輸入最高價" min="0" step="0.01" inputmode="decimal">
     </div>
 
-    <button onclick="calculateStopPrice()" data-i18n="btnCalculate">計算目前的停利與停損價格</button>
     <button class="btn-success" onclick="saveCurrentData()" data-i18n="btnSave">💾 儲存此股票數據</button>
+    <button onclick="calculateStopPrice()" data-i18n="btnCalculate">計算目前的停利與停損價格</button>
     <button class="btn-secondary" onclick="clearCurrentData()" data-i18n="btnClear">🗑️ 清除目前數據</button>
 
     <div class="result" id="output" data-i18n="outputDefault">
@@ -548,10 +548,9 @@ function selectStock(index) {
         // 自動計算停利停損價格
         calculateStopPrice();
     } else {
-        // 點擊空插槽，提示用戶正在新增第幾檔
-        const t = translations[localStorage.getItem('selectedLanguage') || 'zh-TW'] || translations['zh-TW'];
-        alert(`${t.creatingSlot}${index + 1}${t.stockSlot}`);
+        // 點擊空插槽，直接進入新增模式
         clearCurrentData();
+        document.getElementById('stockName').focus();
     }
     renderStockSlots();
 }
