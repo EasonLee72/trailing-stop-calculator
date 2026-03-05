@@ -537,6 +537,8 @@ function selectStock(index) {
         document.getElementById('T_switch').value = stock.T_switch || 15;
         document.getElementById('L2').value = stock.L2 || 70;
         document.getElementById('S_stop').value = stock.S_stop || 5;
+        // 自動計算停利停損價格
+        calculateStopPrice();
     } else {
         clearCurrentData();
     }
