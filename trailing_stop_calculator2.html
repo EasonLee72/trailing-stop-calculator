@@ -246,10 +246,10 @@
         <input type="text" id="stockName" placeholder="例如：2330 台積電" data-i18n-placeholder="phStockName">
 
         <label for="C" data-i18n="labelCost">成本價</label>
-        <input type="number" id="C" placeholder="輸入成本價" value="100" min="0" step="0.01" inputmode="decimal">
+        <input type="number" id="C" placeholder="輸入成本價" min="0" step="0.01" inputmode="decimal">
 
         <label for="P_high" data-i18n="labelHigh">買進後最高價 (建議使用每日收盤價)</label>
-        <input type="number" id="P_high" placeholder="輸入最高價" value="114" min="0" step="0.01" inputmode="decimal">
+        <input type="number" id="P_high" placeholder="輸入最高價" min="0" step="0.01" inputmode="decimal">
     </div>
 
     <button onclick="calculateStopPrice()" data-i18n="btnCalculate">計算目前的停利與停損價格</button>
@@ -328,8 +328,10 @@ const translations = {
         termsContent: '本計算器提供的所有數據僅供參考和教育目的。本工具不構成任何形式的投資建議、招攬或誘導。您應當根據自身的財務狀況、風險承受能力和獨立判斷進行投資決策。使用本工具產生的一切後果，由用戶自行承擔。我們不對因使用本工具而導致的任何損失或損害負責。',
         privacyTitle: '隱私政策',
         privacyContent: '本網站不會收集、儲存或分享任何用戶的個人身份資訊 (Personally Identifiable Information, PII)。所有計算均在您的瀏覽器本地完成，輸入的成本價和最高價等數據不會被傳輸到伺服器或被我們記錄。若本網站未來使用 Google AdSense，Google 可能會收集非個人身份資訊以進行廣告投放，詳情請參考 Google 的隱私政策。',
+        slotPrefix: '第',
         stockSlot: '檔股票',
         emptyStock: '（空）',
+        creatingSlot: '正在新增第',
         confirmDelete: '確定要清除此股票的數據嗎？'
     },
     'zh-CN': {
@@ -369,8 +371,10 @@ const translations = {
         termsContent: '本计算器提供的所有数据仅供参考和教育目的。本工具不构成任何形式的投资建议、招揽或诱导。您应当根据自身的财务状况、风险承受能力和独立判断进行投资决策。使用本工具产生的一切后果，由用户自行承担。我们不对因使用本工具而导致的任何损失或损害负责。',
         privacyTitle: '隐私政策',
         privacyContent: '本网站不会收集、储存或分享任何用户的个人身份资讯 (Personally Identifiable Information, PII)。所有计算均在您的浏览器本地完成，输入的成本价和最高价等数据不会被传输到服务器或被我们记录。若本网站未来使用 Google AdSense，Google 可能会收集非个人身份资讯以进行广告投放，详情请参考 Google 的隐私政策。',
+        slotPrefix: '第',
         stockSlot: '档股票',
         emptyStock: '（空）',
+        creatingSlot: '正在新增第',
         confirmDelete: '确定要消除此股票的数据吗？'
     },
     'en': {
@@ -410,8 +414,10 @@ const translations = {
         termsContent: 'All data provided by this calculator is for reference and educational purposes only. This tool does not constitute investment advice. You should make investment decisions based on your own financial situation, risk tolerance, and independent judgment.',
         privacyTitle: 'Privacy Policy',
         privacyContent: 'This website does not collect, store, or share any personally identifiable information (PII). All calculations are completed locally in your browser. Input data such as cost price and highest price will not be transmitted to servers.',
+        slotPrefix: 'Slot ',
         stockSlot: 'Stock',
         emptyStock: '(Empty)',
+        creatingSlot: 'Creating Slot ',
         confirmDelete: 'Are you sure you want to clear this stock\'s data?'
     },
     'ja': {
@@ -451,8 +457,10 @@ const translations = {
         termsContent: 'この計算器が提供するすべてのデータは参考および教育目的のみです。このツールはいかなる投資助言、勧誘、誘導も構成しません。',
         privacyTitle: 'プライバシーポリシー',
         privacyContent: '当サイトはいかなるユーザーの個人識別情報 (PII) も収集、保存、共有しません。すべての計算はお客様のブラウザローカルで完了します。',
+        slotPrefix: '第',
         stockSlot: '銘柄',
         emptyStock: '（空）',
+        creatingSlot: '新規追加中：第',
         confirmDelete: 'この株式のデータを消去してもよろしいですか？'
     }
 };
@@ -518,7 +526,7 @@ function renderStockSlots() {
     container.innerHTML = stocks.map((stock, i) => `
         <div class="stock-slot ${i === currentStockIndex ? 'active' : ''}" onclick="selectStock(${i})">
             <div class="stock-slot-header">
-                <span class="stock-name">${stock ? (stock.name || `${i+1}${t.stockSlot}`) : `${i+1}${t.stockSlot} ${t.emptyStock}`}</span>
+                <span class="stock-name">${stock ? (stock.name || `${t.stockSlot}${i+1}`) : `${t.slotPrefix}${i+1}${t.stockSlot} ${t.emptyStock}`}</span>
                 <span style="color: #6c757d; font-size: 0.9em;">${stock ? `💰 ${stock.C} / 📈 ${stock.P_high}` : ''}</span>
             </div>
         </div>
@@ -540,6 +548,9 @@ function selectStock(index) {
         // 自動計算停利停損價格
         calculateStopPrice();
     } else {
+        // 點擊空插槽，提示用戶正在新增第幾檔
+        const t = translations[localStorage.getItem('selectedLanguage') || 'zh-TW'] || translations['zh-TW'];
+        alert(`${t.creatingSlot}${index + 1}${t.stockSlot}`);
         clearCurrentData();
     }
     renderStockSlots();
@@ -592,8 +603,8 @@ function clearCurrentData() {
     if (stocks[currentStockIndex] && !confirm(t.confirmDelete || '確定要清除此股票的數據嗎？')) return;
     
     document.getElementById('stockName').value = '';
-    document.getElementById('C').value = '100';
-    document.getElementById('P_high').value = '114';
+    document.getElementById('C').value = '';
+    document.getElementById('P_high').value = '';
     document.getElementById('T_start').value = '10';
     document.getElementById('L1').value = '60';
     document.getElementById('T_switch').value = '15';
